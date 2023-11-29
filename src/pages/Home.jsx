@@ -6,6 +6,7 @@ import icon01 from "../assets/images/icon01.png"
 import icon02 from "../assets/images/icon02.png"
 import icon03 from "../assets/images/icon03.png"
 import featureImg from "../assets/images/feature-img.png"
+import faqImg from "../assets/images/faq-img.png"
 import videoIcon from "../assets/images/video-icon.png"
 import avatarIcon from "../assets/images/avatar-icon.png"
 import { Link } from 'react-router-dom'
@@ -13,6 +14,7 @@ import { BsArrowRight } from "react-icons/bs";
 import About from '../components/About/About'
 import ServiceList from '../components/services/ServiceList'
 import DoctorList from '../components/Doctors/DoctorList'
+import FaqList from "../components/Faq/FaqList"
 
 const Home = () => {
     return (
@@ -224,6 +226,22 @@ const Home = () => {
                             </p>
                         </div>
                         <DoctorList />
+                    </div>
+                </section>
+
+                {/* faq */}
+                <section>
+                    <div className="container">
+                        <div className="flex justify-between gap-[50px] lg:gap-0">
+                            <div className="w-1/2 hidden md:block">
+                                <img src={faqImg} alt='' />
+                            </div>
+
+                            <div className="w-full md:w-1/2">
+                                <h2 className="heading">Most asked Questions by Our Patients</h2>
+                                <FaqList />
+                            </div>
+                        </div>
                     </div>
                 </section>
             </>
