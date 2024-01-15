@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import authRoute from "./Routes/auth.js";
+import userRoute from "./Routes/user.js";
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/users", userRoute);
 
 app.listen(port, () => {
   connectDb();
