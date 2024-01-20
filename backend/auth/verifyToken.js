@@ -1,8 +1,6 @@
 import jwt from "jsonwebtoken";
 import Doctor from "../models/DoctorSchema.js";
 import User from "../models/UserSchema.js";
-import dotenv from "dotenv";
-dotenv.config();
 
 export const authenticate = async (req, res, next) => {
   //get token from headers
@@ -19,7 +17,7 @@ export const authenticate = async (req, res, next) => {
     const token = authToken.split(" ")[1];
 
     //verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_TOKEN);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
     req.userId = decoded.id;
     req.role = decoded.role;
@@ -29,7 +27,7 @@ export const authenticate = async (req, res, next) => {
     if (err.name === "Token Expired Error") {
       return res.status(401).json({ message: "Token Is Expired" });
     }
-    return res.status(401).json({ success: false, message: "Invalid token" });
+    return res.status(401).json({ success: false, message: err });
   }
 };
 
