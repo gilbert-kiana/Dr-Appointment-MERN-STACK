@@ -1,17 +1,47 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { BASE_URL } from '../config'
+import { toast } from "react-toastify"
 
 const Login = () => {
-
+    const [loading, setLoading] = useState(false)
     const [formData, setFormData] = useState({
         email: "",
         password: ""
     })
 
+    const navigate = useNavigate()
     const handleInputChange = e => {
         setFormData({
             ...formData, [e.target.name]: e.target.value
         })
+    }
+    const submitHandler = async event => {
+        event.preventDefault()
+        setLoading(true)
+
+        try {
+            const res = await fetch(`${BASE_URL}/auth/login`, {
+                method: 'post', headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+
+            const result = await res.json()
+
+            if (!res.ok) {
+                throw new Error(result.message)
+            }
+
+            setLoading(false)
+            toast.success(result.message)
+            navigate("/home")
+        }
+        catch (error) {
+            toast.error(error)
+            setLoading(false)
+        }
     }
 
     return (
@@ -23,7 +53,7 @@ const Login = () => {
                     </span> Back
                 </h3>
 
-                <form className="py-4 md:py-0">
+                <form className="py-4 md:py-0" onSubmit={submitHandler}>
                     <div className="mb-5">
                         <input
                             type='email'
