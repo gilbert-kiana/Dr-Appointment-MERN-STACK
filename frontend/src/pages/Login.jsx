@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { BASE_URL } from '../config'
 import { toast } from "react-toastify"
+import { authContext } from "../context/AuthContext.jsx"
+import HashLoader from "react-spinners/HashLoader"
 
 const Login = () => {
     const [loading, setLoading] = useState(false)
@@ -11,6 +13,8 @@ const Login = () => {
     })
 
     const navigate = useNavigate()
+    const { dispatch } = useContext(authContext)
+
     const handleInputChange = e => {
         setFormData({
             ...formData, [e.target.name]: e.target.value
@@ -34,9 +38,20 @@ const Login = () => {
                 throw new Error(result.message)
             }
 
+            dispatch({
+                type: "LOGIN_SUCCESS",
+                payload: {
+                    user: result.data,
+                    token: result.token,
+                    role: result.role
+                }
+            })
+
+            console.log(result, 'login')
+
             setLoading(false)
             toast.success(result.message)
-            navigate("/home")
+            navigate("/")
         }
         catch (error) {
             toast.error(error)
@@ -79,7 +94,7 @@ const Login = () => {
 
                     <div className="mt-7">
                         <button type="submit" className='w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3'>
-                            Login
+                            {loading ? <HashLoader size={35} color='#ffffff' /> : "Login"}
                         </button>
                     </div>
 
