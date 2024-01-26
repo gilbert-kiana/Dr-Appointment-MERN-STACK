@@ -81,7 +81,7 @@ export const getUserProfile = async (req, res) => {
       data: { ...rest },
     });
   } catch (err) {
-    res.status(500).json({ success: false, message: "Something went wrong." });
+    res.status(500).json({ success: false, message: err });
   }
 };
 
